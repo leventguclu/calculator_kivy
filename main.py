@@ -141,9 +141,11 @@ KV = '''
 '''
 
 class Calculator(BoxLayout):
-    current = []
-    operation = None
-    previous = None
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.current = []
+        self.operation = None
+        self.previous = None
 
     def number(self, num):
         current = self.ids.display.text
