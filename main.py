@@ -1,4 +1,3 @@
-
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
@@ -158,11 +157,11 @@ class Calculator(BoxLayout):
         if self.ids.display.text == 'Error':
             return
         try:
-            current = self.ids.display.text
-            if current and current != '0':
-                self.previous = float(current)
-                self.operation = op
-                self.ids.display.text = '0'
+            if self.previous is not None and self.operation:
+                self.equals()
+            self.previous = float(self.ids.display.text)
+            self.operation = op
+            self.ids.display.text = '0'
         except ValueError:
             self.ids.display.text = 'Error'
 
@@ -172,23 +171,27 @@ class Calculator(BoxLayout):
         self.operation = None
 
     def equals(self):
+        if not self.operation or self.previous is None:
+            return
         try:
             current = float(self.ids.display.text)
-            if self.operation and self.previous is not None:
-                if self.operation == '+':
-                    result = self.previous + current
-                elif self.operation == '-':
-                    result = self.previous - current
-                elif self.operation == '*':
-                    result = self.previous * current
-                elif self.operation == '/':
-                    if current == 0:
-                        raise ZeroDivisionError
-                    result = self.previous / current
-                
-                self.ids.display.text = str(result)
-                self.previous = None
-                self.operation = None
+            if self.operation == '+':
+                result = self.previous + current
+            elif self.operation == '-':
+                result = self.previous - current
+            elif self.operation == '*':
+                result = self.previous * current
+            elif self.operation == '/':
+                if current == 0:
+                    raise ZeroDivisionError
+                result = self.previous / current
+            
+            # Sonucu tam sayı ise, ondalık gösterme
+            if result.is_integer():
+                result = int(result)
+            self.ids.display.text = str(result)
+            self.previous = None
+            self.operation = None
         except (ValueError, ZeroDivisionError):
             self.ids.display.text = 'Error'
 
