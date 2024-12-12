@@ -72,7 +72,7 @@ KV = '''
             
         NeumorphicButton:
             text: '÷'
-            on_press: root.operation('/')
+            on_press: root.set_operation('/')
             
         NeumorphicButton:
             text: '7'
@@ -88,7 +88,7 @@ KV = '''
             
         NeumorphicButton:
             text: '×'
-            on_press: root.operation('*')
+            on_press: root.set_operation('*')
             
         NeumorphicButton:
             text: '4'
@@ -104,7 +104,7 @@ KV = '''
             
         NeumorphicButton:
             text: '-'
-            on_press: root.operation('-')
+            on_press: root.set_operation('-')
             
         NeumorphicButton:
             text: '1'
@@ -120,7 +120,7 @@ KV = '''
             
         NeumorphicButton:
             text: '+'
-            on_press: root.operation('+')
+            on_press: root.set_operation('+')
             
         NeumorphicButton:
             text: '0'
@@ -153,7 +153,7 @@ class Calculator(BoxLayout):
         else:
             self.ids.display.text = current + num
 
-    def operation(self, op):
+    def set_operation(self, op):
         if self.ids.display.text == 'Error':
             return
         try:
