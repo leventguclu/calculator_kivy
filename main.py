@@ -155,10 +155,14 @@ class Calculator(BoxLayout):
             self.ids.display.text = current + num
 
     def operation(self, op):
+        if self.ids.display.text == 'Error':
+            return
         try:
-            self.previous = float(self.ids.display.text)
-            self.operation = op
-            self.ids.display.text = '0'
+            current = self.ids.display.text
+            if current and current != '0':
+                self.previous = float(current)
+                self.operation = op
+                self.ids.display.text = '0'
         except ValueError:
             self.ids.display.text = 'Error'
 
