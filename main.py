@@ -4,34 +4,35 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.core.window import Window
 from kivy.animation import Animation
 from kivy.properties import ListProperty
+from kivy.uix.button import Button
 
 KV = '''
 <NeumorphicButton@Button>:
-    background_color: 0,0,0,0
+    background_color: 0, 0.5, 0.5, 1  
     background_normal: ''
     canvas.before:
         Color:
-            rgba: 0.9, 0.9, 0.9, 1  # Light gray base color
+            rgba: 0.8, 0.8, 0.8, 1  
         RoundedRectangle:
             pos: self.pos
             size: self.size
             radius: [15]
         Color:
-            rgba: 1, 1, 1, 0.8  # Light shadow
+            rgba: 1, 1, 1, 0.8  
         RoundedRectangle:
             pos: [self.pos[0]-3, self.pos[1]-3]
             size: self.size
             radius: [15]
         Color:
-            rgba: 0.8, 0.8, 0.8, 0.8  # Dark shadow
+            rgba: 0.6, 0.6, 0.6, 0.8  
         RoundedRectangle:
             pos: [self.pos[0]+3, self.pos[1]+3]
             size: self.size
             radius: [15]
-    color: 0.3, 0.3, 0.3, 1  # Text color
+    color: 0.2, 0.8, 0.8, 1  
     font_size: '20sp'
     on_press: self.background_color = (0.8, 0.8, 0.8, 0.1)
-    on_release: self.background_color = (0, 0, 0, 0)
+    on_release: self.background_color = (0, 0.5, 0.5, 1)  
 
 <Calculator>:
     orientation: 'vertical'
@@ -39,7 +40,7 @@ KV = '''
     spacing: 15
     canvas.before:
         Color:
-            rgba: 0.95, 0.95, 0.95, 1
+            rgba: 0.3, 0.3, 0.3, 1 
         Rectangle:
             pos: self.pos
             size: self.size
@@ -137,6 +138,16 @@ KV = '''
         NeumorphicButton:
             text: '='
             on_press: root.equals()
+    
+    Label:
+        text: "levo_gcl"
+        size_hint_y: None
+        height: 40  
+        color: 1, 1, 1, 1  
+        font_size: '20sp'
+        halign: 'center'
+        valign: 'middle'
+        text_size: self.size  
 '''
 
 class Calculator(BoxLayout):
@@ -186,7 +197,6 @@ class Calculator(BoxLayout):
                     raise ZeroDivisionError
                 result = self.previous / current
             
-            # Sonucu tam sayı ise, ondalık gösterme
             if result.is_integer():
                 result = int(result)
             self.ids.display.text = str(result)
